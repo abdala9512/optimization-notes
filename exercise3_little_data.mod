@@ -1,6 +1,25 @@
 /*Ejercicio #3
 MIGUEL ARQUEZ ABDALA
 
+Problema:
+
+Una compañía cuenta con varios vehículos, cada uno de los cuales cuenta con k compartimientos.
+Cada compartimiento está diseñado con capacidad limitada en cuanto a volumen y peso que puede transportar. 
+Se desea transportar varios tipos de carga, de las cuales se conoce su densidad volumétrica(Kg/m3), la cantidad a transportar(Kg), 
+la ganancia obtenida por cada unidad transportada($/Kg), un costo($)de 
+transportar cada carga en cada vehículo (se cobra lo mismo independiente de la cantidad transportada).
+Para efectos del transporte, las cargas pueden fraccionarse y mezclarse entre ellas;
+sin embargo existen restricciones que impiden que algunas cargas puedan llevarse
+en el mismo compartimiento, y si se cargan en el mismo vehículo es obligatorio pagar un seguro ($) por esta práctica 
+(El Monto de la póliza del seguro por transportar cada par de cargas i y j en el mismo vehículo es fijo, no depende de las cantidades transportadas).
+Inclusive, existen restricciones que impiden el transporte de algunas cargas en el mismo vehículo.
+Para efectos de que el vehículo no presente problemas en su funcionamiento,
+los compartimientos deben utilizar la misma razón peso transportado/capacidad de transporte de peso.
+Adicionalmente la compañía tiene categorizado sus vehículos(un vehículo puede pertenecer a varias categorías),
+y ha establecido que por cada categoría sólo un número máximo de vehículos pueden estar transportando carga. Finalmente,
+se debe cumplir que: si los vehículos 7 y 5 prestan el servicio, y el servicio 10 no lo presta, entonces el vehículo 1 debe
+prestar el servicio No puede prestarlo. El objetivo es determinar el plan de transporte para maximizar la ganancia para la compañía al transportar las cargas 
+
 */
 
 # Conjuntos
@@ -123,7 +142,3 @@ param cat_veh: s1 s2 s3 :=
 param max_use default 1; 
 
 end;
-
-
-
-
