@@ -12,7 +12,7 @@ minimize fObj: sum{c in C, m in M} phi_[c, m];
 
 s.t. absoluteValueRestriction1{c in C, m in M}: phi_[c,m] >= x[c]-coord[c, m] ;
 s.t. absoluteValueRestriction2{c in C, m in M}: phi_[c,m] >= -1*(x[c]-coord[c, m]) ;
-s.t. zoneRestriction{c in C}: feasible_zone_low[c] <= x[c] <= feasible_zone_upp[c];
+s.t. zoneRestriction{c in C}: low[c] <= x[c] <= upp[c];
 
 
 data;
@@ -21,6 +21,6 @@ data;
 	param coord:  m1  m2  m3  m4:=
 			x1     3   0   -2  1
 			x2     0  -3    1  4;
-	param feasible_zone_low:= x1 -1 x2 0;
-	param feasible_zone_upp:= x1 2 x2 1;
+	param low:= x1 -1 x2 0;
+	param upp:= x1 2 x2 1;
 end;
