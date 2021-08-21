@@ -2,6 +2,27 @@ Un fabricante debe producir una cantidad suficiente de dos artículos para cumpl
 
 El gerente de producción quiere desarrollar un programa para determinar el número de unidades de cada artículo que debe fabricarse en horas normales y en horas extra para los tres meses.  
 
+Mes Producción combinada máxima Ventas 
+5/3 
+3/5 
+Artículo 1 / Artículo 2 
+Costo unitario de producción 
+HN 
+10 
+10 
+HE 
+15/ 16 
+17 / 15 
+19/17 
+HE 
+18 / 20 
+20 / 18 
+22 / 22 
+Costo unitario de 
+almacenaje 
+1/2 
+2/1 
+
  
 
 El objetivo es minimizar el costo total de producción y almacenaje, cumpliendo con las ventas contratadas para cada mes. No se tiene un inventario inicial y no se desea inventario final después de los 3 meses.  
