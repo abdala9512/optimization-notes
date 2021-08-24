@@ -20,14 +20,14 @@ var x{O,D} >=0;
 minimize fObj: sum{o in O, d in D} x[o,d] * ct[o,d];
 
 
-s.t. demanda:  sum{d in D} de[d] = sum{o in O} s[o];
-s.t.  production: sum{d in D,o in O}  x[o,d] = sum{o in O} s[o];
-s.t.  supply: sum{d in D,o in O}  x[o,d] = sum{d in D} de[d];
+s.t.  production{o in O}: sum{d in D}  x[o,d] =  s[o];
+s.t.  supply{d in D}: sum{o in O}  x[o,d] =  de[d];
 
 solve;
 
 printf "\nFunción Objetivo: %f\n", fObj; 
 
+display {o in O, d in D} x[o,d];
 display {o in O,d in D} ct[o,d]; 
 
 
@@ -50,7 +50,7 @@ param h: 1 2 3 4 5 6  7:=
 	5 1000 1000 1000 1000 0 0 0
 	6 1000 1000 1000 1000 0 0 0;
 	
-param de:= 1 5 2 3 3 3 4 5 5 4 6 4;
+param de:= 1 5 2 3 3 3 4 5 5 4 6 4 7 12;
 param  s:= 1 10 2 3 3 8 4 2 5 10 6 3;
 param  M:= 1000;
 
