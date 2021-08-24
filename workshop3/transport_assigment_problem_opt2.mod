@@ -19,7 +19,10 @@ var x{O,D} >=0;
 
 minimize fObj: sum{o in O, d in D} x[o,d] * ct[o,d];
 
-#s.t. demanda{o in O, d in D}:  de[d] = s[o];
+
+s.t. demanda:  sum{d in D} de[d] = sum{o in O} s[o];
+s.t.  production: sum{d in D,o in O}  x[o,d] = sum{o in O} s[o];
+s.t.  supply: sum{d in D,o in O}  x[o,d] = sum{d in D} de[d];
 
 solve;
 
