@@ -19,7 +19,7 @@ class GRASPKnapsack:
         self.knapsack_ratio = [ u / p if p != 0 else u for u,p in zip(self.utility, self.weight) ]
     
     def greedy_randomized_construction(self):
-        
+        """"Busqueda aleatoria voraz"""
         greedy_solution = np.zeros(self.n_objects, dtype = int)
         knapsack_instance = self.knapsack_ratio.copy()
         
@@ -47,6 +47,7 @@ class GRASPKnapsack:
             
     def local_search(self, solution):
         
+        """Busqueda local de la solucion"""
         searched_solution = solution.copy()
         
         solution_gains   = [gain if gain != 0 else np.nan for gain in searched_solution * self.utility]
@@ -100,9 +101,9 @@ class GRASPKnapsack:
         
         return searched_solution, sum(np.array(local_solution) * self.utility)
     
-    
+    # separamos en una funcion el operador de busqueda 
     def search_operator(self, to_drop, solution_gains, solution_weights, ratios, solution, criteria):
-        
+        """"Ejecucion del operador de busqueda"""
         solution_gains[to_drop]   = np.nan
         solution_weights[to_drop] = np.nan
         ratios[to_drop]           = np.nan
@@ -120,11 +121,11 @@ class GRASPKnapsack:
         
     
     def update_solution(self, solution, vector):
+        """"Actualizacion de la solucion segun se interactue con nuevos objetos"""
          return [0 if np.isnan(obj) else 1 for obj in vector]
         
-    # utils
     def calculate_rcl(self, arr):
-        
+        """Calculo RCL"""
         low_bound   = np.nanmin(arr)
         upper_bound = np.nanmax(arr)
             
@@ -135,8 +136,11 @@ class GRASPKnapsack:
         
         return rcl
     
+    # Objeto aleatorio
     def random_object(self, arr, choices: list, case = 1, validate_candidate=False):
-        
+        """
+        Toma o retira un objeto aleatorio de la mochila case = 1 toma, case = 0 retira
+        """
         
         print("choices:  ----> ", choices)
         initial = arr.copy()
@@ -164,6 +168,7 @@ class GRASPKnapsack:
     
     
     def select_candidates(self, arr, criteria: list):
+        """"Selecciona los posibles candidatos fuera de la maleta basado en un criterio (mayor utilidad, mayor relacion utilidad/peso)"""
         arr = np.array(arr)
         current_capacity = sum(np.array(arr) * self.weight)
         print("Peso actual: ", current_capacity)
@@ -173,7 +178,7 @@ class GRASPKnapsack:
         return outside_candidates
     
     def check_current_capacity(self, arr, candidates):
-        
+        """Revisar si la eleccion de un objecto sobrepasa la capacidad de la maleta"""
         current_capacity = sum(np.array(arr) * self.weight)
         
         print("candidatos a elegir: ", len(candidates))
@@ -184,6 +189,7 @@ class GRASPKnapsack:
                 return take
     
     def check_candidate(self, current_capacity, candidate):
+        """"Revisar si un candidato no entraria en la maleta"""
         return (current_capacity + self.weight[candidate]) > self.capacity
             
         
@@ -203,3 +209,12 @@ class GRASPKnapsack:
         print("MEjor solucion: ", best_solution)    
         self.solution = best_solution
         return best_solution
+    
+if __name__ == '__main__':
+    
+    utilidades = [5,3,4,5,4,5,1,6]
+    pesos      = [6,2,2,3,3,4,6,3]
+    cap        = 15
+    
+    graspInstance = GRASPKnapsack(utility = utilidades, weight = pesos, capacity = cap, max_iter = 100, seed = 150)
+    graspInstance.solve()
