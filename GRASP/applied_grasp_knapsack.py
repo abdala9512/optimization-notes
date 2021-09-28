@@ -122,7 +122,7 @@ class GRASPKnapsack:
     
     def update_solution(self, solution, vector):
         """"Actualizacion de la solucion segun se interactue con nuevos objetos"""
-         return [0 if np.isnan(obj) else 1 for obj in vector]
+        return [0 if np.isnan(obj) else 1 for obj in vector]
         
     def calculate_rcl(self, arr):
         """Calculo RCL"""
@@ -206,7 +206,9 @@ class GRASPKnapsack:
             if local_solution > best_solution:
                 print("Nueva mejor solucion encontrada")
                 best_solution = local_solution
-        print("MEjor solucion: ", best_solution)    
+        print("*************************************************************************")
+        print("Mejor solucion: ", best_solution)
+        print("*************************************************************************")
         self.solution = best_solution
         return best_solution
     
