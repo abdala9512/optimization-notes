@@ -4,8 +4,28 @@ import random
 class GRASPKnapsack:
     
     
-    def __init__(self, utility: list, weight: list, capacity, max_iter, seed, alpha = 0.5):
+    def __init__(self, utility: list = [], weight: list = [], capacity = 0, logs_path = "grasp_knapsack.log",
+                 max_iter=10, seed = 1008, alpha = 0.5, random_instance = False, random_objects = 0):
         
+        """Crea una instancia de KnapSack que se resolvera con la metaheuristica GRASP
+        
+        - Si random_instance = True, random_objects debe ser > 0.
+        - Los valores en una instancia aleatoria estan definidos en el rango 0-100
+        - Solucionar el problema crea un archivo llamado grasp_knapsack.log
+        """
+        
+        self.opt_logs = open(logs_path,'w')
+        
+        if random_instance:
+            utility = [random.randint(1,100) for _ in range(random_objects)]
+            weight  = [random.randint(1,100) for _ in range(random_objects)]
+            
+            print("utilidades aleatorias: ",file=self.opt_logs)
+            print(utility,file=self.opt_logs)
+            
+            print("Pesos aleatorios: ",file=self.opt_logs)
+            print(weight,file=self.opt_logs)
+            
         if len(utility) != len(weight):
             raise Exception('Listas de utilidad y pesos deben tener la misma longitud')
 
@@ -37,10 +57,10 @@ class GRASPKnapsack:
                 used_capacity+= self.weight[taken_object]
                 knapsack_instance[taken_object] = np.nan
         
-        print("Solucion obtenida----------------")
-        print(greedy_solution)
-        print("Peso usado: ", used_capacity)
-        print("Total ganancia: ", sum(greedy_solution * self.utility) )
+        print("Solucion obtenida Greed Randomized Construction----------------",file=self.opt_logs)
+        print(greedy_solution,file=self.opt_logs)
+        print("Peso usado: ", used_capacity,file=self.opt_logs)
+        print("Total ganancia: ", sum(greedy_solution * self.utility),file=self.opt_logs )
         
         return greedy_solution
             
@@ -94,10 +114,10 @@ class GRASPKnapsack:
         searched_solution, _, _ = self.random_object(operator3_solution, choices = [i for i, obj in enumerate(operator3_solution)  if obj == 1] ,case=0)
         local_solution, _, _ = self.random_object(operator3_solution, choices = [i for i, obj in enumerate(operator3_solution)  if obj == 0], validate_candidate = True)
         
-        print("Solucion obtenida----------------")
-        print(local_solution)
-        print("Peso usado: ", sum(np.array(local_solution) * self.weight))
-        print("Total ganancia: ", sum(np.array(local_solution) * self.utility) )
+        print("Solucion obtenida Local Search----------------",file=self.opt_logs)
+        print(local_solution,file=self.opt_logs)
+        print("Peso usado: ", sum(np.array(local_solution) * self.weight),file=self.opt_logs)
+        print("Total ganancia: ", sum(np.array(local_solution) * self.utility),file=self.opt_logs )
         
         return searched_solution, sum(np.array(local_solution) * self.utility)
     
@@ -197,26 +217,36 @@ class GRASPKnapsack:
         random.seed(self.seed)
         best_solution = 0
         for i in range(self.max_iter):
-            print("-------------------------------------------------------------------------")
-            print(f"Iteracion {i+1}, Mejor solucion: ", best_solution)
-            print("-------------------------------------------------------------------------")
+            print("-------------------------------------------------------------------------",file=self.opt_logs)
+            print(f"Iteracion {i+1}, Mejor solucion: ", best_solution,file=self.opt_logs)
+            print("-------------------------------------------------------------------------",file=self.opt_logs)
             contruction_phase = self.greedy_randomized_construction()
             _, local_solution = self.local_search(contruction_phase)
-            print(f"Local solucion: ", local_solution)
+            print(f"Local solucion: ", local_solution,file=self.opt_logs)
             if local_solution > best_solution:
-                print("Nueva mejor solucion encontrada")
+                print("Nueva mejor solucion encontrada",file=self.opt_logs)
                 best_solution = local_solution
-        print("*************************************************************************")
-        print("Mejor solucion: ", best_solution)
-        print("*************************************************************************")
+        print("*************************************************************************",file=self.opt_logs)
+        print("Mejor solucion: ", best_solution,file=self.opt_logs)
+        print("*************************************************************************",file=self.opt_logs)
         self.solution = best_solution
+        self.opt_logs.close()
         return best_solution
+
     
 if __name__ == '__main__':
     
+    # Objectos generados por el usuario
     utilidades = [5,3,4,5,4,5,1,6]
     pesos      = [6,2,2,3,3,4,6,3]
     cap        = 15
     
+    print("Knapsack Manual------------------------------------------------------------------")
     graspInstance = GRASPKnapsack(utility = utilidades, weight = pesos, capacity = cap, max_iter = 100, seed = 150)
     graspInstance.solve()
+    
+    
+    # Objetos Aleatorios
+    print("Knapsack Aleatorio------------------------------------------------------------------")
+    randomGRASP = GRASPKnapsack(capacity = 100, random_objects=20, random_instance=True)
+    randomGRASP.solve()
